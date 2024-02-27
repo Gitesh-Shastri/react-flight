@@ -7,16 +7,38 @@ import DownloadApp from 'components/download_app';
 import FooterDetails from 'components/footer_details';
 import Partner from 'components/partners';
 
-function App() {
-  return (
-	<div>
-		<Header />
-		<Footer />
-		<DownloadApp />
-		<FooterDetails />
-		<Partner />
-	</div>
-  );
+import { authActions } from 'actions/detail';
+
+class App extends React.Component {
+
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			details: {}
+		}
+	}
+
+	componentDidMount() {
+		authActions.getDetailsData(data=>{
+			this.setState({ details: data })
+		});
+	}
+
+	render() {
+
+		let { details } = this.state;
+
+		return (
+			<div>
+				<Header details={details}/>
+				<Footer details={details}/>
+				<DownloadApp details={details}/>
+				<FooterDetails details={details}/>
+				<Partner details={details}/>
+			</div>
+		);
+	}
 }
 
 export default App;
